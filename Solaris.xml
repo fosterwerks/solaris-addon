@@ -1,0 +1,16 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="SolarisIndicator" mouseEnabled="true" movable="true" clampedToScreen="true">
+            <Dimensions x="480" y="8" />
+            <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
+
+            <OnMoveStop>
+                Solaris.OnIndicatorMoveStop()
+            </OnMoveStop>
+            
+            <Controls>
+                
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>
