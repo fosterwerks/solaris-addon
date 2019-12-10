@@ -1,12 +1,13 @@
 -- Create addon's namespace
 Solaris = {}
 Solaris.name = "Solaris"
+Solaris.version = 1
 
 -- INITIALIZATION ---------------------------------------------------------------------------------
 
 function Solaris:Initialize()
     -- Associate our variable with the appropriate 'saved variables' file
-    self.savedVariables = ZO_SavedVars:NewAccountWide("SolarisSavedVariables", 1, nil, {})
+    self.savedVariables = ZO_SavedVars:NewAccountWide("SolarisSavedVariables", Solaris.version, nil, {})
 
     -- Restore indicator's position based on saved data
     self:RestorePosition()
@@ -17,8 +18,8 @@ end
 function Solaris:RestorePosition()
     local left = self.savedVariables.left
     local top = self.savedVariables.top
-    SolarisIndicator:ClearAnchors()
-    SolarisIndicator:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+    SolarisTimeline:ClearAnchors()
+    SolarisTimeline:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
 end
 
 -- EVENT HANDLER FUNCTIONS ------------------------------------------------------------------------
@@ -36,8 +37,8 @@ end
 
 function Solaris.OnIndicatorMoveStop()
     -- Save position after moving control
-    Solaris.savedVariables.left = SolarisIndicator:GetLeft()
-    Solaris.savedVariables.top = SolarisIndicator:GetTop()
+    Solaris.savedVariablesTimeline:GetLeft()
+    Solaris.savedVariableTimeline:GetTop()
 end
 
 -- EVENT REGISTRATIONS ----------------------------------------------------------------------------

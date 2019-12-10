@@ -2,7 +2,7 @@
 ## Author: Fosterwerks
 ## APIVersion: 100030
 ## AddOnVersion: 1
-## Version: 1.00
+## Version: 0.1
 ## DependsOn: 
 ## OptionalDependsOn: 
 ## IsLibrary: false
