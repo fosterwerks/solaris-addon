@@ -35,7 +35,7 @@ function Solaris.OnAddOnLoaded(event, addonName)
     Solaris:Initialize()
 end
 
-function Solaris.OnIndicatorMoveStop()
+function Solaris.OnTimelineMoveStop()
     -- Save position after moving control
     Solaris.savedVariablesTimeline:GetLeft()
     Solaris.savedVariableTimeline:GetTop()
