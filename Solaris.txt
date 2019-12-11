@@ -1,6 +1,6 @@
 ﻿## Title: Solaris
 ## Author: Fosterwerks
-## APIVersion: 100030
+## APIVersion: 100029
 ## AddOnVersion: 1
 ## Version: 0.1
 ## DependsOn: 

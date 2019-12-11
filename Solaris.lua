@@ -18,8 +18,8 @@ end
 function Solaris:RestorePosition()
     local left = self.savedVariables.left
     local top = self.savedVariables.top
-    SolarisTimeline:ClearAnchors()
-    SolarisTimeline:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+    SolarisTimelineControl:ClearAnchors()
+    SolarisTimelineControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
 end
 
 -- EVENT HANDLER FUNCTIONS ------------------------------------------------------------------------
@@ -37,8 +37,8 @@ end
 
 function Solaris.OnTimelineMoveStop()
     -- Save position after moving control
-    Solaris.savedVariablesTimeline:GetLeft()
-    Solaris.savedVariableTimeline:GetTop()
+    Solaris.savedVariables.left = SolarisTimelineControl:GetLeft()
+    Solaris.savedVariables.top = SolarisTimelineControl:GetTop()
 end
 
 -- EVENT REGISTRATIONS ----------------------------------------------------------------------------

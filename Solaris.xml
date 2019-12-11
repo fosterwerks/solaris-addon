@@ -1,6 +1,6 @@
 <GuiXml>
     <Controls>
-        <TopLevelControl name="SolarisTimeline" mouseEnabled="true" movable="true" clampedToScreen="true">
+        <TopLevelControl name="SolarisTimelineControl" mouseEnabled="true" movable="true" clampedToScreen="true">
             <Dimensions x="480" y="8" />
             <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
 
@@ -9,8 +9,13 @@
             </OnMoveStop>
             
             <Controls>
-                <Backdrop name="$(parent)Backdrop">
+                <Backdrop name="$(parent)Backdrop" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.6">
+                    <Dimensions x="480" y="8" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+                    <Edge edgeSize="1" />
+                </Backdrop>
             </Controls>
+            
         </TopLevelControl>
     </Controls>
 </GuiXml>
