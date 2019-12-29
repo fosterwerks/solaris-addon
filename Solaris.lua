@@ -3,17 +3,21 @@ Solaris = {}
 Solaris.name = "Solaris"
 Solaris.version = 1
 
+local defaults = {
+    numberOfDays = 3
+}
+
 -- INITIALIZATION ---------------------------------------------------------------------------------
 
 function Solaris:Initialize()
     -- Associate our variable with the appropriate 'saved variables' file
-    self.savedVariables = ZO_SavedVars:NewAccountWide("SolarisSavedVariables", Solaris.version, nil, {})
+    self.savedVariables = ZO_SavedVars:NewAccountWide("SolarisSavedVariables", Solaris.version, nil, defaults)
 
-    -- Restore indicator's position based on saved data
     self:RestorePosition()
+    self:BuildControls()
 end
 
--- OTHER FUNCTIONS --------------------------------------------------------------------------------
+-- GUI FUNCTIONS ----------------------------------------------------------------------------------
 
 function Solaris:RestorePosition()
     local left = self.savedVariables.left
@@ -22,11 +26,15 @@ function Solaris:RestorePosition()
     SolarisTimelineControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
 end
 
+function Solaris:BuildControls()
+    
+end
+
 -- EVENT HANDLER FUNCTIONS ------------------------------------------------------------------------
 
 function Solaris.OnAddOnLoaded(event, addonName)
     -- The event fires each time any addon loads; check to see that it is our addon that's loading
-    if addonName == Solaris.name then return end
+    if addonName ~= Solaris.name then return end
 
     -- Unregister loaded callback
     EVENT_MANAGER:UnregisterForEvent(Solaris.name, EVENT_ADD_ON_LOADED)

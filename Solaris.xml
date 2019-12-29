@@ -14,6 +14,15 @@
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
                     <Edge edgeSize="1" />
                 </Backdrop>
+                <Backdrop name="$(parent)Line" centerColor="FFFFFF" edgeColor="00000000" layer="0" level="1" alpha="0.6">
+                    <Dimensions x="45" y="4" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="135" offsetY="2" />
+                    <Edge edgeSize="0" />
+                </Backdrop>
+                <Texture name="$(parent)RT_indicator" textureFile="esoui/art/tooltips/arrow_down.dds">
+                    <Dimensions x="9" y="9" />
+                    <Anchor point="BOTTOM" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="135" offsetY="0" />
+                </Texture>
             </Controls>
             
         </TopLevelControl>
