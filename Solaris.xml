@@ -1,5 +1,12 @@
 <GuiXml>
     <Controls>
+        <!-- Template for segments representing Tamriel's daytime -->
+        <Backdrop name="DaytimeLine" centerColor="FFFFFF" edgeColor="00000000" layer="0" level="1" alpha="0.6" virtual="true">
+            <Dimensions x="45" y="4" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="2"/>
+            <Edge edgeSize="0" />
+        </Backdrop>
+
         <TopLevelControl name="SolarisTimelineControl" mouseEnabled="true" movable="true" clampedToScreen="true">
             <Dimensions x="480" y="8" />
             <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
@@ -14,12 +21,8 @@
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
                     <Edge edgeSize="1" />
                 </Backdrop>
-                <Backdrop name="$(parent)Line" centerColor="FFFFFF" edgeColor="00000000" layer="0" level="1" alpha="0.6">
-                    <Dimensions x="45" y="4" />
-                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="135" offsetY="2" />
-                    <Edge edgeSize="0" />
-                </Backdrop>
-                <Texture name="$(parent)RT_indicator" textureFile="esoui/art/tooltips/arrow_down.dds">
+                
+                <Texture name="$(parent)RT_Indicator" textureFile="esoui/art/tooltips/arrow_down.dds">
                     <Dimensions x="9" y="9" />
                     <Anchor point="BOTTOM" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="135" offsetY="0" />
                 </Texture>
