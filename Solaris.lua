@@ -8,13 +8,11 @@ local defaults = {
 
 -- CONSTANTS --------------------------------------------------------------------------------------
 
-local PERCENT_NIGHT = 7200 / 20955
-local PERCENT_DAY = 1 - PERCENT_NIGHT
-local PERCENT_TT = 20955 / (24 * 60 * 60)
+local SECONDS_PER_DAY_RT = 86400
+local SECONDS_PER_DAY_TT = 20955
+local PERCENT_TT_TO_RT = SECONDS_PER_DAY_TT / SECONDS_PER_DAY_RT
 
-local SECONDS_PER_DAY = 86400
-
-local WINDOW_LENGTH = 480
+local PERCENT_DAYTIME_TO_DAY_TT = 19 / 24
 
 -- TIME FUNCTIONS ---------------------------------------------------------------------------------
 
@@ -45,13 +43,23 @@ function Solaris.GetHMS(percentOfDay)
     return h, m, s
 end
 
-function Solaris.GetPercentTT()
-	local day,night=20955,7200
-	local tSinceMidnight=GetTimeStamp() - 1398044126 + night/2 + (day-night)/2
-	local daysPast=day*math.floor(tSinceMidnight/day)
-	local s=tSinceMidnight-daysPast
-    local t=s/day
-    return t
+-- param: rtSeconds (optional)
+-- rtSeconds is the number of seconds past midnight (real-time) at the beginning of the current day
+function Solaris.GetPercentTT(rtSeconds)
+    local day = SECONDS_PER_DAY_TT
+    
+    local t = GetTimeStamp()
+    local rtS = Solaris.GetSecondsRT()
+
+    local secondsSinceSomeMidnightInGame = t - (1398044126 - day/2)            -- 139... = calibaration at sun noon in-game?
+    
+    if rtSeconds then
+        secondsSinceSomeMidnightInGame = secondsSinceSomeMidnightInGame - rtS + rtSeconds
+    end
+    
+    local s = secondsSinceSomeMidnightInGame % day
+    local p = s / day
+    return p
 end
 
 -- INITIALIZATION ---------------------------------------------------------------------------------
@@ -83,13 +91,41 @@ end
 function Solaris:BuildControls()
     local window = SolarisTimelineControl
     local w, _ = window:GetDimensions()
-
-    local p = Solaris.GetPercentRT() * w / 2
+    
+    -- Width of a real day on timeline control, control spans two days
+    local rDayWidth = w / 2
+    -- Width of a tamriel day on timeline control
+    local tDayWidth = rDayWidth * PERCENT_TT_TO_RT
+    local tDaytimeWidth = tDayWidth * PERCENT_DAYTIME_TO_DAY_TT
+    
+    -- Update the Real-time Indicator position
+    local sRt = Solaris.GetSecondsRT()
+    local pos = (sRt / SECONDS_PER_DAY_RT) * rDayWidth
     local rti = window:GetNamedChild("RT_Indicator")
     rti:ClearAnchors()
-    rti:SetAnchor(BOTTOM, window, TOPLEFT, p, 0)
+    rti:SetAnchor(BOTTOM, window, TOPLEFT, pos, 0)
 
-    local tDay_1 = CreateControlFromVirtual("Daytime", window, "DaytimeLine", "1")
+    local p = Solaris.GetPercentTT()
+    local shift = -(p * tDayWidth) + (3/24 * tDayWidth) + pos
+
+    local tDayNow = CreateControlFromVirtual("TamrielDayNow", window, "DaytimeLine")
+    tDayNow:SetWidth(tDaytimeWidth)
+    tDayNow:ClearAnchors()
+    tDayNow:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
+    
+    -- Now create tamriel days, back to midnight this morning
+    local index = 0
+    repeat
+        index = index + 1
+        shift = shift - tDayWidth
+        local tDayPast = CreateControlFromVirtual("TamrielDayPast", window, "DaytimeLine", index)
+        tDayPast:SetWidth(tDaytimeWidth)
+        tDayPast:ClearAnchors()
+        tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
+    until shift <= 0
+
+    -- correct last created TamrielDayPast
+
 end
 
 
