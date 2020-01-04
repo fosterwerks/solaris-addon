@@ -108,24 +108,41 @@ function Solaris:BuildControls()
     local p = Solaris.GetPercentTT()
     local shift = -(p * tDayWidth) + (3/24 * tDayWidth) + pos
 
+    -- Create day line for the current tamriel day
     local tDayNow = CreateControlFromVirtual("TamrielDayNow", window, "DaytimeLine")
     tDayNow:SetWidth(tDaytimeWidth)
     tDayNow:ClearAnchors()
     tDayNow:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
     
+    -- Hide or trim current tamriel day line depending on position
+    if -shift >= tDaytimeWidth then
+        tDayNow:SetHidden(true)
+    elseif shift < 0 then
+        tDayNow:SetWidth(tDaytimeWidth - (-shift))
+        tDayNow:ClearAnchors()
+        tDayNow:SetAnchor(TOPLEFT, window, TOPLEFT, 0, 2)
+    end
+
     -- Now create tamriel days, back to midnight this morning
     local index = 0
+    local tDayPast
     repeat
         index = index + 1
         shift = shift - tDayWidth
-        local tDayPast = CreateControlFromVirtual("TamrielDayPast", window, "DaytimeLine", index)
+        tDayPast = CreateControlFromVirtual("TamrielDayPast", window, "DaytimeLine", index)
         tDayPast:SetWidth(tDaytimeWidth)
         tDayPast:ClearAnchors()
         tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
     until shift <= 0
 
     -- correct last created TamrielDayPast
-
+    if -shift >= tDaytimeWidth then
+        tDayPast:SetHidden(true)            -- if a full bar is off the line
+    else
+        tDayPast:SetWidth(tDaytimeWidth - (-shift))
+        tDayPast:ClearAnchors()
+        tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, 0, 2)
+    end
 end
 
 
