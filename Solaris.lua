@@ -143,6 +143,26 @@ function Solaris:BuildControls()
         tDayPast:ClearAnchors()
         tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, 0, 2)
     end
+
+    -- Now add future tamriel days
+    index = 0
+    shift = pos  + ((1 - p) * tDayWidth) - (2/24 * tDayWidth)       -- init shift to right side of tDayNow
+    local tDayFuture
+    repeat
+        index = index + 1
+        shift = shift + tDayWidth
+        tDayFuture = CreateControlFromVirtual("TamrielDayFuture", window, "DaytimeLine", index)
+        tDayFuture:SetWidth(tDaytimeWidth)
+        tDayFuture:ClearAnchors()
+        tDayFuture:SetAnchor(TOPRIGHT, window, TOPLEFT, shift, 2)
+    until shift >= w
+
+    -- correct last created TamrielDayPast
+    if shift >= w + tDaytimeWidth then
+        tDayFuture:SetHidden(true)            -- if a full bar is off the line
+    else
+        tDayFuture:SetWidth(tDaytimeWidth - (shift - w))
+    end
 end
 
 
