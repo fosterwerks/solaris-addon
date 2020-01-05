@@ -74,10 +74,8 @@ function Solaris:Initialize()
 end
 
 function Solaris:RegisterSlashCommands()
-
+    return
 end
-
-
 
 -- GUI FUNCTIONS ----------------------------------------------------------------------------------
 
@@ -183,9 +181,7 @@ function Solaris.UpdateRTI()
     rti:ClearAnchors()
     rti:SetAnchor(BOTTOM, window, TOPLEFT, pos, 0)
 
-    if pos >= rDayWidth then
-        Solaris.BuildControls()
-    end
+    return pos
 end
 
 -- EVENT HANDLER FUNCTIONS ------------------------------------------------------------------------
@@ -207,12 +203,16 @@ function Solaris.OnTimelineMoveStop()
     Solaris.savedVariables.top = SolarisTimelineControl:GetTop()
 end
 
+local lastPos
 local lastUpdate = GetTimeStamp()
 function Solaris.OnUpdate()
     local now = GetTimeStamp()
     if now - lastUpdate < 60 then return end
-    Solaris.UpdateRTI()
+    pos = Solaris.UpdateRTI()
     lastUpdate = now
+    if lastPos and (lastPos > pos) then
+        Solaris.BuildControls()
+    end
 end
 
 -- EVENT REGISTRATIONS ----------------------------------------------------------------------------
