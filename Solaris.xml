@@ -15,6 +15,11 @@
                 Solaris.OnTimelineMoveStop()
             </OnMoveStop>
             
+            <OnUpdate>
+                Solaris.OnUpdate()
+            </OnUpdate>
+
+
             <Controls>
                 <Backdrop name="$(parent)Backdrop" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.6">
                     <Dimensions x="480" y="8" />

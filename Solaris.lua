@@ -104,11 +104,10 @@ function Solaris:BuildControls()
     local rti = window:GetNamedChild("RT_Indicator")
     rti:ClearAnchors()
     rti:SetAnchor(BOTTOM, window, TOPLEFT, pos, 0)
-
+    
+    -- Create day line for the current tamriel day
     local p = Solaris.GetPercentTT()
     local shift = -(p * tDayWidth) + (3/24 * tDayWidth) + pos
-
-    -- Create day line for the current tamriel day
     local tDayNow = CreateControlFromVirtual("TamrielDayNow", window, "DaytimeLine")
     tDayNow:SetWidth(tDaytimeWidth)
     tDayNow:ClearAnchors()
@@ -160,11 +159,34 @@ function Solaris:BuildControls()
     -- correct last created TamrielDayPast
     if shift >= w + tDaytimeWidth then
         tDayFuture:SetHidden(true)            -- if a full bar is off the line
-    else
+    elseif shift > w then
         tDayFuture:SetWidth(tDaytimeWidth - (shift - w))
+        tDayFuture:ClearAnchors()
+        tDayFuture:SetAnchor(TOPRIGHT, window, TOPRIGHT, 0, 2)
     end
 end
 
+function Solaris.UpdateRTI()
+    local window = SolarisTimelineControl
+    local w, _ = window:GetDimensions()
+    
+    -- Width of a real day on timeline control, control spans two days
+    local rDayWidth = w / 2
+    -- Width of a tamriel day on timeline control
+    local tDayWidth = rDayWidth * PERCENT_TT_TO_RT
+    local tDaytimeWidth = tDayWidth * PERCENT_DAYTIME_TO_DAY_TT
+    
+    -- Update the Real-time Indicator position
+    local sRt = Solaris.GetSecondsRT()
+    local pos = (sRt / SECONDS_PER_DAY_RT) * rDayWidth
+    local rti = window:GetNamedChild("RT_Indicator")
+    rti:ClearAnchors()
+    rti:SetAnchor(BOTTOM, window, TOPLEFT, pos, 0)
+
+    if pos >= rDayWidth then
+        Solaris.BuildControls()
+    end
+end
 
 -- EVENT HANDLER FUNCTIONS ------------------------------------------------------------------------
 
@@ -185,7 +207,12 @@ function Solaris.OnTimelineMoveStop()
     Solaris.savedVariables.top = SolarisTimelineControl:GetTop()
 end
 
-function Solaris.UpdateRTIPosition()
+local lastUpdate = GetTimeStamp()
+function Solaris.OnUpdate()
+    local now = GetTimeStamp()
+    if now - lastUpdate < 60 then return end
+    Solaris.UpdateRTI()
+    lastUpdate = now
 end
 
 -- EVENT REGISTRATIONS ----------------------------------------------------------------------------
