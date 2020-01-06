@@ -207,10 +207,10 @@ local lastUpdate = GetTimeStamp()
 function Solaris.OnUpdate()
     local now = GetTimeStamp()
     if now - lastUpdate < 60 then return end
-    
-    pos = Solaris.UpdateRTI()
-    
     lastUpdate = now
+
+    -- update real-time indicator position and returns new position
+    local pos = Solaris.UpdateRTI()
 
     if lastPos and (lastPos > pos) then
         Solaris.BuildControls()
