@@ -1,5 +1,6 @@
 <GuiXml>
     <Controls>
+
         <!-- Template for segments representing Tamriel's daytime -->
         <Backdrop name="DaytimeLine" centerColor="FFFFFF" edgeColor="00000000" layer="0" level="1" alpha="0.6" virtual="true">
             <Dimensions x="45" y="4" />
@@ -21,12 +22,45 @@
 
 
             <Controls>
+                <!-- Main bar -->
                 <Backdrop name="$(parent)Backdrop" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.6">
                     <Dimensions x="480" y="8" />
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
                     <Edge edgeSize="1" />
                 </Backdrop>
                 
+                <!-- Denliniation marks -->
+                <Backdrop name="$(parent)BackdropDiv1" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
+                    <Dimensions x="1" y="10" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="120" offsetY="-1"/>
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <Backdrop name="$(parent)BackdropDiv2" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
+                    <Dimensions x="1" y="12" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="240" offsetY="-2"/>
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <Backdrop name="$(parent)BackdropDiv3" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
+                    <Dimensions x="1" y="10" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="360" offsetY="-1"/>
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <Backdrop name="$(parent)BackdropDiv4" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
+                    <Dimensions x="1" y="12" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="-2"/>
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <Backdrop name="$(parent)BackdropDiv5" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
+                    <Dimensions x="1" y="12" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="480" offsetY="-2"/>
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <!-- Real-time indicator arrow -->
                 <Texture name="$(parent)RT_Indicator" textureFile="esoui/art/tooltips/arrow_down.dds">
                     <Dimensions x="9" y="9" />
                     <Anchor point="BOTTOM" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="135" offsetY="0" />

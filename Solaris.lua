@@ -208,11 +208,15 @@ local lastUpdate = GetTimeStamp()
 function Solaris.OnUpdate()
     local now = GetTimeStamp()
     if now - lastUpdate < 60 then return end
+    
     pos = Solaris.UpdateRTI()
+    
     lastUpdate = now
+
     if lastPos and (lastPos > pos) then
         Solaris.BuildControls()
     end
+    lastPos = pos
 end
 
 -- EVENT REGISTRATIONS ----------------------------------------------------------------------------
