@@ -3,7 +3,6 @@ Solaris.name = "Solaris"
 Solaris.version = 1
 
 local defaults = {
-    numberOfDays = 3
 }
 
 -- CONSTANTS --------------------------------------------------------------------------------------
