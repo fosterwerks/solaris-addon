@@ -1,6 +1,6 @@
 Solaris = {}
 Solaris.name = "Solaris"
-Solaris.version = 1
+Solaris.version = 2
 
 local defaults = {
 }
@@ -105,10 +105,12 @@ function Solaris:BuildControls()
     -- Create day line for the current tamriel day
     local p = Solaris.GetPercentTT()
     local shift = -(p * tDayWidth) + (3/24 * tDayWidth) + pos
-    local tDayNow = CreateControlFromVirtual("TamrielDayNow", window, "DaytimeLine")
+    local tDayNow = window:GetNamedChild("TamrielDayNow") or
+        CreateControlFromVirtual("$(parent)TamrielDayNow", window, "DaytimeLine")
     tDayNow:SetWidth(tDaytimeWidth)
     tDayNow:ClearAnchors()
     tDayNow:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
+    tDayNow:SetHidden(false)
     
     -- Hide or trim current tamriel day line depending on position
     if -shift >= tDaytimeWidth then
@@ -125,10 +127,12 @@ function Solaris:BuildControls()
     repeat
         index = index + 1
         shift = shift - tDayWidth
-        tDayPast = CreateControlFromVirtual("TamrielDayPast", window, "DaytimeLine", index)
+        tDayPast = window:GetNamedChild("TamrielDayPast"..index) or
+            CreateControlFromVirtual("$(parent)TamrielDayPast", window, "DaytimeLine", index)
         tDayPast:SetWidth(tDaytimeWidth)
         tDayPast:ClearAnchors()
         tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
+        tDayPast:SetHidden(false)
     until shift <= 0
 
     -- correct last created TamrielDayPast
@@ -147,10 +151,12 @@ function Solaris:BuildControls()
     repeat
         index = index + 1
         shift = shift + tDayWidth
-        tDayFuture = CreateControlFromVirtual("TamrielDayFuture", window, "DaytimeLine", index)
+        tDayFuture = window:GetNamedChild("TamrielDayFuture"..index) or
+            CreateControlFromVirtual("$(parent)TamrielDayFuture", window, "DaytimeLine", index)
         tDayFuture:SetWidth(tDaytimeWidth)
         tDayFuture:ClearAnchors()
         tDayFuture:SetAnchor(TOPRIGHT, window, TOPLEFT, shift, 2)
+        tDayFuture:SetHidden(false)
     until shift >= w
 
     -- correct last created TamrielDayFuture
