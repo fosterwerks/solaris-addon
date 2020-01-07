@@ -153,7 +153,7 @@ function Solaris:BuildControls()
         tDayFuture:SetAnchor(TOPRIGHT, window, TOPLEFT, shift, 2)
     until shift >= w
 
-    -- correct last created TamrielDayPast
+    -- correct last created TamrielDayFuture
     if shift >= w + tDaytimeWidth then
         tDayFuture:SetHidden(true)            -- if a full bar is off the line
     elseif shift > w then
