@@ -96,76 +96,55 @@ function Solaris:BuildControls()
     local tDaytimeWidth = tDayWidth * PERCENT_DAYTIME_TO_DAY_TT
     
     -- Update the Real-time Indicator position
-    local sRt = Solaris.GetSecondsRT()
-    local pos = (sRt / SECONDS_PER_DAY_RT) * rDayWidth
-    local rti = window:GetNamedChild("RT_Indicator")
-    rti:ClearAnchors()
-    rti:SetAnchor(BOTTOM, window, TOPLEFT, pos, 0)
+    local pos = Solaris.UpdateRTI()
     
-    -- Create day line for the current tamriel day
-    local p = Solaris.GetPercentTT()
-    local shift = -(p * tDayWidth) + (3/24 * tDayWidth) + pos
-    local tDayNow = window:GetNamedChild("TamrielDayNow") or
-        CreateControlFromVirtual("$(parent)TamrielDayNow", window, "DaytimeLine")
-    tDayNow:SetWidth(tDaytimeWidth)
-    tDayNow:ClearAnchors()
-    tDayNow:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
-    tDayNow:SetHidden(false)
+    -- Create first line to correspond with midnight (real-time) this morning
+    local p = Solaris.GetPercentTT(0)
+    local shift = -(p * tDayWidth) + (3/24 * tDayWidth)
+    local tDayLine = window:GetNamedChild("TamrielDayLine") or
+        CreateControlFromVirtual("$(parent)TamrielDayLine", window, "DaytimeLine")
+    tDayLine:SetWidth(tDaytimeWidth)
+    tDayLine:ClearAnchors()
+    tDayLine:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
+    tDayLine:SetHidden(false)
     
-    -- Hide or trim current tamriel day line depending on position
+    -- Hide or trim line depending on position
     if -shift >= tDaytimeWidth then
-        tDayNow:SetHidden(true)
+        tDayLine:SetHidden(true)         -- if line is fully off the bar
     elseif shift < 0 then
-        tDayNow:SetWidth(tDaytimeWidth - (-shift))
-        tDayNow:ClearAnchors()
-        tDayNow:SetAnchor(TOPLEFT, window, TOPLEFT, 0, 2)
+        tDayLine:SetWidth(tDaytimeWidth - (-shift))
+        tDayLine:ClearAnchors()
+        tDayLine:SetAnchor(TOPLEFT, window, TOPLEFT, 0, 2)
     end
 
-    -- Now create tamriel days, back to midnight this morning
-    local index = 0
-    local tDayPast
-    repeat
-        index = index + 1
-        shift = shift - tDayWidth
-        tDayPast = window:GetNamedChild("TamrielDayPast"..index) or
-            CreateControlFromVirtual("$(parent)TamrielDayPast", window, "DaytimeLine", index)
-        tDayPast:SetWidth(tDaytimeWidth)
-        tDayPast:ClearAnchors()
-        tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, shift, 2)
-        tDayPast:SetHidden(false)
-    until shift <= 0
-
-    -- correct last created TamrielDayPast
-    if -shift >= tDaytimeWidth then
-        tDayPast:SetHidden(true)            -- if a full bar is off the line
-    else
-        tDayPast:SetWidth(tDaytimeWidth - (-shift))
-        tDayPast:ClearAnchors()
-        tDayPast:SetAnchor(TOPLEFT, window, TOPLEFT, 0, 2)
-    end
-
-    -- Now add future tamriel days
+    -- Now add tamriel days until the end of the bar
+    shift = shift + tDaytimeWidth   -- anchoring now off the top-right corner of first day line
     index = 0
-    shift = pos  + ((1 - p) * tDayWidth) - (2/24 * tDayWidth)       -- init shift to right side of tDayNow
-    local tDayFuture
     repeat
         index = index + 1
         shift = shift + tDayWidth
-        tDayFuture = window:GetNamedChild("TamrielDayFuture"..index) or
-            CreateControlFromVirtual("$(parent)TamrielDayFuture", window, "DaytimeLine", index)
-        tDayFuture:SetWidth(tDaytimeWidth)
-        tDayFuture:ClearAnchors()
-        tDayFuture:SetAnchor(TOPRIGHT, window, TOPLEFT, shift, 2)
-        tDayFuture:SetHidden(false)
+        tDayLine = window:GetNamedChild("TamrielDayLine"..index) or
+            CreateControlFromVirtual("$(parent)TamrielDayLine", window, "DaytimeLine", index)
+        tDayLine:SetWidth(tDaytimeWidth)
+        tDayLine:ClearAnchors()
+        tDayLine:SetAnchor(TOPRIGHT, window, TOPLEFT, shift, 2)
+        tDayLine:SetHidden(false)
     until shift >= w
 
     -- correct last created TamrielDayFuture
     if shift >= w + tDaytimeWidth then
-        tDayFuture:SetHidden(true)            -- if a full bar is off the line
+        tDayLine:SetHidden(true)            -- if a full bar is off the line
     elseif shift > w then
-        tDayFuture:SetWidth(tDaytimeWidth - (shift - w))
-        tDayFuture:ClearAnchors()
-        tDayFuture:SetAnchor(TOPRIGHT, window, TOPRIGHT, 0, 2)
+        tDayLine:SetWidth(tDaytimeWidth - (shift - w))
+        tDayLine:ClearAnchors()
+        tDayLine:SetAnchor(TOPRIGHT, window, TOPRIGHT, 0, 2)
+    end
+
+    -- cleanup any bars from a rebuild
+    index = index + 1
+    while window:GetNamedChild("TamrielDayLine"..index) do
+        window:GetNamedChild("TamrielDayLine"..index):SetHidden(true)
+        index = index + 1
     end
 end
 
