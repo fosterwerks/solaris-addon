@@ -73,7 +73,7 @@ function Solaris:Initialize()
 end
 
 function Solaris:RegisterSlashCommands()
-    return
+    -- TODO: Add slash commands
 end
 
 -- GUI FUNCTIONS ----------------------------------------------------------------------------------
