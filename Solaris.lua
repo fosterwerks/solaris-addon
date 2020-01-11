@@ -209,13 +209,13 @@ end
 -- EVENT HANDLER FUNCTIONS ------------------------------------------------------------------------
 
 function Solaris.OnAddOnLoaded(event, addonName)
-    -- The event fires each time any addon loads; check to see that it is our addon that's loading
     if addonName ~= Solaris.name then return end
-
-    -- Unregister loaded callback
     EVENT_MANAGER:UnregisterForEvent(Solaris.name, EVENT_ADD_ON_LOADED)
+    EVENT_MANAGER:RegisterForEvent(Solaris.name, EVENT_PLAYER_ACTIVATED, Solaris.OnPlayerActivated)
+end
 
-    -- Begin initialization
+function Solaris.OnPlayerActivated()
+    EVENT_MANAGER:UnregisterForEvent(Solaris.name, EVENT_PLAYER_ACTIVATED)
     Solaris:Initialize()
 end
 
