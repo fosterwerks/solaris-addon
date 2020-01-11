@@ -9,9 +9,11 @@ local defaults = {
 
 local SECONDS_PER_DAY_RT = 86400
 local SECONDS_PER_DAY_TT = 20955
-local PERCENT_TT_TO_RT = SECONDS_PER_DAY_TT / SECONDS_PER_DAY_RT
+local RT_TO_TT = SECONDS_PER_DAY_TT / SECONDS_PER_DAY_RT
+local TT_TO_RT = SECONDS_PER_DAY_RT / SECONDS_PER_DAY_TT
 
 local PERCENT_DAYTIME_TO_DAY_TT = 19 / 24
+local PERCENT_NIGHTTIME_TO_DAY_TT = 5 / 24
 
 -- TIME FUNCTIONS ---------------------------------------------------------------------------------
 
@@ -92,7 +94,7 @@ function Solaris:BuildControls()
     -- Width of a real day on timeline control, control spans two days
     local rDayWidth = w / 2
     -- Width of a tamriel day on timeline control
-    local tDayWidth = rDayWidth * PERCENT_TT_TO_RT
+    local tDayWidth = rDayWidth * RT_TO_TT
     local tDaytimeWidth = tDayWidth * PERCENT_DAYTIME_TO_DAY_TT
     
     -- Update the Real-time Indicator position
@@ -155,7 +157,7 @@ function Solaris.UpdateRTI()
     -- Width of a real day on timeline control, control spans two days
     local rDayWidth = w / 2
     -- Width of a tamriel day on timeline control
-    local tDayWidth = rDayWidth * PERCENT_TT_TO_RT
+    local tDayWidth = rDayWidth * RT_TO_TT
     local tDaytimeWidth = tDayWidth * PERCENT_DAYTIME_TO_DAY_TT
     
     -- Update the Real-time Indicator position
