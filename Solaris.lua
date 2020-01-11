@@ -63,6 +63,36 @@ function Solaris.GetPercentTT(rtSeconds)
     return p
 end
 
+-- SLASH COMMANDS ---------------------------------------------------------------------------------
+
+function Solaris.GetSunriseSunset()
+    local SUNRISE_P = 3/24
+    local SUNSET_P = 22/24
+
+    rts = Solaris.GetSecondsRT()
+    ttp = Solaris.GetPercentTT()
+
+    local sunrise, sunset               -- defined as seconds past midnight (real-time)
+
+    if ttp < SUNRISE_P then
+        sunrise = (rts + (ttp - SUNRISE_P) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
+        sunset = (sunrise + SECONDS_PER_DAY_TT * PERCENT_DAYTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT
+        df("Next sunrise: %s:%s:%s", Solaris.GetHMS(sunrise))
+        df("Next sunset: %s:%s:%s", Solaris.GetHMS(sunset))
+    elseif ttp < SUNSET_P then
+        sunset = ((rts + (SUNSET_P - ttp) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT) / SECONDS_PER_DAY_RT
+        sunrise = ((sunset + SECONDS_PER_DAY_TT * PERCENT_NIGHTTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT) / SECONDS_PER_DAY_RT
+        df("Next sunset: %s:%s:%s", Solaris.GetHMS(sunset))
+        df("Next sunrise: %s:%s:%s", Solaris.GetHMS(sunrise))
+    else
+        sunrise = (rts + (1 - ttp + SUNRISE_P) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
+        sunset = (sunrise + SECONDS_PER_DAY_TT * PERCENT_DAYTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT
+        df("Next sunrise: %s:%s:%s", Solaris.GetHMS(sunrise))
+        df("Next sunset: %s:%s:%s", Solaris.GetHMS(sunset))
+    end
+
+end
+
 -- INITIALIZATION ---------------------------------------------------------------------------------
 
 function Solaris:Initialize()
@@ -75,7 +105,7 @@ function Solaris:Initialize()
 end
 
 function Solaris:RegisterSlashCommands()
-    -- TODO: Add slash commands
+    SLASH_COMMANDS["/sol"] = Solaris.GetSunriseSunset
 end
 
 -- GUI FUNCTIONS ----------------------------------------------------------------------------------
