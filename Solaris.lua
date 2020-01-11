@@ -77,18 +77,24 @@ function Solaris.GetSunriseSunset()
     if ttp < SUNRISE_P then
         sunrise = (rts + (ttp - SUNRISE_P) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
         sunset = (sunrise + SECONDS_PER_DAY_TT * PERCENT_DAYTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT
-        df("Next sunrise: %s:%s:%s", Solaris.GetHMS(sunrise))
-        df("Next sunset: %s:%s:%s", Solaris.GetHMS(sunset))
+        sunrise = sunrise / SECONDS_PER_DAY_RT
+        sunset = sunset / SECONDS_PER_DAY_RT
+        df("Next sunrise: %d:%02d:%02d", Solaris.GetHMS(sunrise))
+        df("Next sunset: %d:%02d:%02d", Solaris.GetHMS(sunset))
     elseif ttp < SUNSET_P then
-        sunset = ((rts + (SUNSET_P - ttp) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT) / SECONDS_PER_DAY_RT
-        sunrise = ((sunset + SECONDS_PER_DAY_TT * PERCENT_NIGHTTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT) / SECONDS_PER_DAY_RT
-        df("Next sunset: %s:%s:%s", Solaris.GetHMS(sunset))
-        df("Next sunrise: %s:%s:%s", Solaris.GetHMS(sunrise))
+        sunset = (rts + (SUNSET_P - ttp) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
+        sunrise = (sunset + SECONDS_PER_DAY_TT * PERCENT_NIGHTTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT
+        sunset = sunset / SECONDS_PER_DAY_RT
+        sunrise = sunrise / SECONDS_PER_DAY_RT
+        df("Next sunset: %d:%02d:%02d", Solaris.GetHMS(sunset))
+        df("Next sunrise: %d:%02d:%02d", Solaris.GetHMS(sunrise))
     else
         sunrise = (rts + (1 - ttp + SUNRISE_P) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
         sunset = (sunrise + SECONDS_PER_DAY_TT * PERCENT_DAYTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT
-        df("Next sunrise: %s:%s:%s", Solaris.GetHMS(sunrise))
-        df("Next sunset: %s:%s:%s", Solaris.GetHMS(sunset))
+        sunrise = sunrise / SECONDS_PER_DAY_RT
+        sunset = sunset / SECONDS_PER_DAY_RT
+        df("Next sunrise: %d:%02d:%02d", Solaris.GetHMS(sunrise))
+        df("Next sunset: %d:%02d:%02d", Solaris.GetHMS(sunset))
     end
 
 end
