@@ -1,6 +1,6 @@
 Solaris = {}
 Solaris.name = "Solaris"
-Solaris.version = 2
+Solaris.version = 3
 
 local defaults = {
 }
