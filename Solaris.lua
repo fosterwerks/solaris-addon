@@ -75,7 +75,7 @@ function Solaris.GetSunriseSunset()
     local sunrise, sunset               -- defined as seconds past midnight (real-time)
 
     if ttp < SUNRISE_P then
-        sunrise = (rts + (ttp - SUNRISE_P) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
+        sunrise = (rts + (SUNRISE_P - ttp) * SECONDS_PER_DAY_TT) % SECONDS_PER_DAY_RT
         sunset = (sunrise + SECONDS_PER_DAY_TT * PERCENT_DAYTIME_TO_DAY_TT) % SECONDS_PER_DAY_RT
         sunrise = sunrise / SECONDS_PER_DAY_RT
         sunset = sunset / SECONDS_PER_DAY_RT
