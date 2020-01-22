@@ -10,7 +10,7 @@
 
         <TopLevelControl name="SolarisTimelineControl" mouseEnabled="true" movable="true" clampedToScreen="true">
             <Dimensions x="480" y="8" />
-            <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
+            <Anchor point="TOPRIGHT" relativeTo="GuiRoot" relativePoint="TOPRIGHT" offsetX="-20" offsetY="15" />
 
             <OnMoveStop>
                 Solaris.OnTimelineMoveStop()

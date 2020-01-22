@@ -1,6 +1,6 @@
 Solaris = {}
 Solaris.name = "Solaris"
-Solaris.version = 3
+Solaris.version = 31
 
 local defaults = {
 }
@@ -119,8 +119,10 @@ end
 function Solaris:RestorePosition()
     local left = self.savedVariables.left
     local top = self.savedVariables.top
-    SolarisTimelineControl:ClearAnchors()
-    SolarisTimelineControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+    if (left and top) then
+        SolarisTimelineControl:ClearAnchors()
+        SolarisTimelineControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+    end
 end
 
 function Solaris:BuildControls()
