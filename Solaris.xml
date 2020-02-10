@@ -29,17 +29,27 @@
                     <Edge edgeSize="1" />
                 </Backdrop>
                 
-                <!-- Denliniation marks -->
+                <!-- Denlineation marks -->
                 <Backdrop name="$(parent)BackdropDiv1" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
                     <Dimensions x="1" y="10" />
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="120" offsetY="-1"/>
                     <Edge edgeSize="1" />
+                    <Controls>
+                        <Label name="$(parent)Label" text="12" font="ZoFontWinH5">
+                            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="3" />
+                        </Label>
+                    </Controls>
                 </Backdrop>
 
                 <Backdrop name="$(parent)BackdropDiv2" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
                     <Dimensions x="1" y="12" />
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="240" offsetY="-2"/>
                     <Edge edgeSize="1" />
+                    <Controls>
+                        <Label name="$(parent)Label" text="24" font="ZoFontWinH5">
+                            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="3" />
+                        </Label>
+                    </Controls>
                 </Backdrop>
 
                 <Backdrop name="$(parent)BackdropDiv3" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
@@ -52,6 +62,11 @@
                     <Dimensions x="1" y="12" />
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="-2"/>
                     <Edge edgeSize="1" />
+                    <Controls>
+                        <Label name="$(parent)Label" text="0" font="ZoFontWinH5">
+                            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="3" />
+                        </Label>
+                    </Controls>
                 </Backdrop>
 
                 <Backdrop name="$(parent)BackdropDiv5" centerColor="000000" edgeColor="FFFF11" layer="0" level="0" alpha="0.3">
